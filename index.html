@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CLS Issue Mitigation</title>
+    <style>
+      #promo-banner {
+        background-color: #ffcc00;
+        padding: 10px;
+        margin-bottom: 10px;
+        text-align: center;
+        display: none;
+      }
+      #close-banner {
+        background-color: #ff0000;
+        color: white;
+        padding: 5px 10px;
+        border: none;
+        cursor: pointer;
+      }
+      #demo-buttons {
+        margin: 1rem 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="promo-banner"></div>
+    <div id="demo-buttons">
+      <button id="fetch-promo">Fetch Promo</button>
+      <button id="close-banner">Close Banner</button>
+    </div>
+    <main>
+      <img
+        src="https://placehold.co/600x400/orange/white"
+        alt="Placeholder"
+        width="600"
+        height="400"
+        style="width: 100%; height: auto"
+      />
+      <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nobis illo
+        tempore assumenda aspernatur adipisci facere eos eligendi minus, earum
+        dicta unde reiciendis perspiciatis. Rem veritatis voluptates sunt amet
+        eum quod!
+      </p>
+      <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nobis illo
+        tempore assumenda aspernatur adipisci facere eos eligendi minus, earum
+        dicta unde reiciendis perspiciatis. Rem veritatis voluptates sunt amet
+        eum quod!
+      </p>
+      <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nobis illo
+        tempore assumenda aspernatur adipisci facere eos eligendi minus, earum
+        dicta unde reiciendis perspiciatis. Rem veritatis voluptates sunt amet
+        eum quod!
+      </p>
+      <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nobis illo
+        tempore assumenda aspernatur adipisci facere eos eligendi minus, earum
+        dicta unde reiciendis perspiciatis. Rem veritatis voluptates sunt amet
+        eum quod!
+      </p>
+      <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nobis illo
+        tempore assumenda aspernatur adipisci facere eos eligendi minus, earum
+        dicta unde reiciendis perspiciatis. Rem veritatis voluptates sunt amet
+        eum quod!
+      </p>
+      <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nobis illo
+        tempore assumenda aspernatur adipisci facere eos eligendi minus, earum
+        dicta unde reiciendis perspiciatis. Rem veritatis voluptates sunt amet
+        eum quod!
+      </p>
+      <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nobis illo
+        tempore assumenda aspernatur adipisci facere eos eligendi minus, earum
+        dicta unde reiciendis perspiciatis. Rem veritatis voluptates sunt amet
+        eum quod!
+      </p>
+      <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nobis illo
+        tempore assumenda aspernatur adipisci facere eos eligendi minus, earum
+        dicta unde reiciendis perspiciatis. Rem veritatis voluptates sunt amet
+        eum quod!
+      </p>
+      <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nobis illo
+        tempore assumenda aspernatur adipisci facere eos eligendi minus, earum
+        dicta unde reiciendis perspiciatis. Rem veritatis voluptates sunt amet
+        eum quod!
+      </p>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const bannerContainerId = "promo-banner"; // ID of the banner container
+        const bannerSessionKey = "promoBannerContent";
+        const bannerClosedKey = "promoBannerClosed";
+
+        // Function to check if the banner was closed by the user
+        const isBannerClosed = () =>
+          sessionStorage.getItem(bannerClosedKey) === "true";
+
+        // Function to inject the banner into the page
+        const injectBanner = (bannerContent) => {
+          const bannerContainer = document.getElementById(bannerContainerId);
+          if (bannerContainer) {
+            bannerContainer.innerHTML = bannerContent;
+            bannerContainer.style.display = "block";
+          }
+        };
+
+        // Check if the banner was previously closed by the user
+        if (!isBannerClosed()) {
+          // Check if banner content exists in sessionStorage
+          const savedBannerContent = sessionStorage.getItem(bannerSessionKey);
+          if (savedBannerContent) {
+            injectBanner(savedBannerContent);
+          }
+
+          // Assume your existing JavaScript logic eventually loads the promotion here
+          // and this function will be called once the promotion is fetched
+          const loadPromotion = () => {
+            setTimeout(() => {
+              const bannerContent = "<div>Your promotion content here</div>"; // Example content
+
+              // Save the banner content to sessionStorage
+              sessionStorage.setItem(bannerSessionKey, bannerContent);
+
+              // Inject the banner content
+              injectBanner(bannerContent);
+            }, 600);
+          };
+
+          // Example event listener to simulate fetching the promotion
+          document
+            .getElementById("fetch-promo")
+            .addEventListener("click", loadPromotion);
+
+          // Function to handle banner close action
+          const closeBanner = () => {
+            sessionStorage.setItem(bannerClosedKey, "true");
+            const bannerContainer = document.getElementById(bannerContainerId);
+            if (bannerContainer) {
+              bannerContainer.style.display = "none";
+            }
+          };
+
+          // Example event listener for closing the banner
+          document
+            .getElementById("close-banner")
+            .addEventListener("click", closeBanner);
+        }
+      });
+    </script>
+  </body>
+</html>
