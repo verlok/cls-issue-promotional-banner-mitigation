@@ -27,7 +27,6 @@
   <body>
     <div id="promo-banner"></div>
     <div id="demo-buttons">
-      <button id="fetch-promo">Fetch Promo</button>
       <button id="close-banner">Close Banner</button>
     </div>
     <main>
@@ -104,6 +103,9 @@
         const isBannerClosed = () =>
           sessionStorage.getItem(bannerClosedKey) === "true";
 
+        // Check if the banner was previously closed by the user. If yes, do nothing.
+        if (isBannerClosed()) return;
+
         // Function to inject the banner into the page
         const injectBanner = (bannerContent) => {
           const bannerContainer = document.getElementById(bannerContainerId);
@@ -113,47 +115,41 @@
           }
         };
 
-        // Check if the banner was previously closed by the user
-        if (!isBannerClosed()) {
-          // Check if banner content exists in sessionStorage
-          const savedBannerContent = sessionStorage.getItem(bannerSessionKey);
-          if (savedBannerContent) {
-            injectBanner(savedBannerContent);
-          }
-
-          // Assume your existing JavaScript logic eventually loads the promotion here
-          // and this function will be called once the promotion is fetched
-          const loadPromotion = () => {
-            setTimeout(() => {
-              const bannerContent = "<div>Your promotion content here</div>"; // Example content
-
-              // Save the banner content to sessionStorage
-              sessionStorage.setItem(bannerSessionKey, bannerContent);
-
-              // Inject the banner content
-              injectBanner(bannerContent);
-            }, 600);
-          };
-
-          // Example event listener to simulate fetching the promotion
-          document
-            .getElementById("fetch-promo")
-            .addEventListener("click", loadPromotion);
-
-          // Function to handle banner close action
-          const closeBanner = () => {
-            sessionStorage.setItem(bannerClosedKey, "true");
-            const bannerContainer = document.getElementById(bannerContainerId);
-            if (bannerContainer) {
-              bannerContainer.style.display = "none";
-            }
-          };
-
-          // Example event listener for closing the banner
-          document
-            .getElementById("close-banner")
-            .addEventListener("click", closeBanner);
+        // 👀 Check if banner content exists in sessionStorage, and eventually inject it
+        const savedBannerContent = sessionStorage.getItem(bannerSessionKey);
+        if (savedBannerContent) {
+          injectBanner(savedBannerContent);
         }
+
+        // Function to simulate the fetch of the promotion.
+        const loadPromotion = () => {
+          setTimeout(() => {
+            const bannerContent = "<div>Your promotion content here</div>";
+
+            // Inject the banner content
+            injectBanner(bannerContent);
+
+            // 👀 Save the banner content to sessionStorage for the next time
+            sessionStorage.setItem(bannerSessionKey, bannerContent);
+          }, 600);
+        };
+
+        // Function to handle banner close action
+        const closeBanner = () => {
+          sessionStorage.setItem(bannerClosedKey, "true");
+          const bannerContainer = document.getElementById(bannerContainerId);
+          if (bannerContainer) {
+            bannerContainer.style.display = "none";
+          }
+        };
+
+        // Simulate fetching the promotion
+        loadPromotion();
+
+        // Example event listener for closing the banner
+        document
+          .getElementById("close-banner")
+          .addEventListener("click", closeBanner);
       });
     </script>
   </body>
